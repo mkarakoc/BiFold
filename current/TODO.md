@@ -1,19 +1,19 @@
-23rd of March, 2022 - Akdeniz University
+4th of July, 2022 - Akdeniz University
 
 # What to do?
 1. If it became a possibility please try to PUBLISH the code as a PAPER.
-2. Print volume integrals and such necessary information in a clean way!
-3. Change the code name to BiFold/BiFOLD or BFold?
-4. Add density dependent interactions **_[70% is done! WORK IN PROGRESS]_**.
-5. Add L1 + L2 = L accuracy check as in DFPOT.
-6. Add Coulomb potential calculation with charge distributions.
+2. Add L1 + L2 = L accuracy check as in DFPOT.
+3. Add Coulomb potential calculation with charge distributions.
    1. Add Coulomb barrier finding option?
-7. Add multipole expansions/terms for U_DF[L,M]?
-8. Add Clebsch-Gordon coefficients.
-9. Add charge distribution to matter distribution transforming.
-10. Add print out in Fresco format named as "fort.4" file.
-11. Add examples.
-12. Documentation.
+4. Add multipole expansions/terms for U_DF[L,M]?
+5. Add Clebsch-Gordon coefficients.
+6. Add charge distribution to matter distribution transforming.
+7. Documentation. 
+8. Add density dependent interactions **_[70% is done! WORK IN PROGRESS]_**.
+9. <s>Change the code name to BiFold/BiFOLD or BFold?</s>
+10. <s>Print volume integrals and such necessary information in a clean way!</s>
+11. <s> Add print out in Fresco format named as "fort.4" file.</s>
+12. <s>Add examples.</s>
 13. <s>Transform the code a Python library if it is plausible?</s>
 14. <s>Create a file with predefined values for nn interactions such as M3Y-Reid/Paris etc.</s>
 15. <s>Add usage of pre-calculated densities/interactions (using interpolation).</s>
@@ -31,7 +31,7 @@
 # Future of the code...
 1. If it is possible use analytical fourier transforms of the functions by default,
 give an option to change to numerical ones.
-2. Add finite range knock-on exchange interactions.
+2. <s>Add finite range knock-on exchange interactions.</s>
 3. Add deformed folding potentials.
 4. Add elastic scattering calculations?
 5. Add alpha decay calculations?
