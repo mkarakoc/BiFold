@@ -39,10 +39,6 @@ def plot_potentials(u, R, part='total', space='func_r', func='u_R', legends=None
                     label_y='U(R) [MeV]', file=None, show=True, block=True, title=False, suptitle='',
                     semilogy=False, xlimit=None, ylimit=None, add_plot=None):
 
-    if legend_ext == None:
-        legend_ext = [['', '', ''] for ui in u]
-        legend_ext = sum(legend_ext, [])
-
     # to plot all the given potentials with the all parts
     if part == 'all' and isinstance(u, list):
         if legend_ext[0] != '':
@@ -99,11 +95,11 @@ def plot_potentials(u, R, part='total', space='func_r', func='u_R', legends=None
             try:
                 name = ui['func_i'][func][0]['name']
             except KeyError:
-                name = ui['func_i'][part[ni]][func][0]['name'] + legend_ext[ni]
+                name = ui['func_i'][part[ni]][func][0]['name']
+                if legend_ext!=None:
+                     name += legend_ext[ni]
             except TypeError:
                 name = ui.info[0]['name']
-
-
         else:
             name = legends[ni]
 

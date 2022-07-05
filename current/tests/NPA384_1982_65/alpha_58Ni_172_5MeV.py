@@ -13,6 +13,7 @@ u_ddm3y = u_ddm3y_reid_zr(e_lab, a_proj, rho_p, rho_t, r, q)
 u_m3y = u_m3y_reid_zr(e_lab, a_proj, rho_p, rho_t, r, q)
 
 title = f'alpha + 58Ni@ {e_lab} NPA 384 (1982) 65'
+
 print_all(u_ddm3y, r, q, title=f'DDM3Y - ZR - {title}')
 print_all(u_m3y, r, q, title=f'M3Y - ZR - {title}')
 #plot_potentials(u, r, part='all', semilogy=True)

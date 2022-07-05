@@ -329,9 +329,18 @@ def print_bifold_dd(u, r, q, R=None, s=None, show='u_R_short', info=True, ncol=4
 
     print(omit)
 
+def print_func(u, r, name='unnamed', header=None, show='u_R_short', info=True, ncol=4,
+               fmt=None, omit='', data_format=0):
+
+    header = ['r', 'f(r)'] if header == None else header
+    if info:
+        print(TABLE_HEADER)
+        print( TABLE_UNDERLINE)
+        print_func_info(name, u.info)
+    print_ncol(r, u(), header=header, show=show, ncol=ncol, fmt=fmt, omit=omit, data_format=data_format)
 
 def print_all(u, r, q, R=None, s=None, title='', show='u_R_short', info=True, file=None,
-              logo=False, ncol=4, fmt=None, header=None, omit='', data_format=0):
+              logo=False, ncol=4, fmt=None, omit='', data_format=0):
     '''
     It merges print_bifold(), print_bifold_di() and print_bifold_dd().
     And, if a file name given to "file" variable all output will be written to the file.
@@ -360,6 +369,8 @@ def print_all(u, r, q, R=None, s=None, title='', show='u_R_short', info=True, fi
         name = u['func_i']['u_R'][0]['name']
     except KeyError:
         name = u['func_i']['total']['u_R'][0]['name']
+    except TypeError:
+        name = 'unnamed'
 
     if name in ['u_direct', 'u_exchange_zr', 'u_coul_bifold_d']:
         print_bifold(u, r, q, R=R, s=s, show=show, info=info, ncol=ncol, fmt=fmt, omit=omit, data_format=data_format)
@@ -367,6 +378,8 @@ def print_all(u, r, q, R=None, s=None, title='', show='u_R_short', info=True, fi
         print_bifold_di(u, r, q, R=R, s=s, show=show, info=info, ncol=ncol, fmt=fmt, omit=omit, data_format=data_format)
     elif 'dim3y' in name or 'ddm3y' in name or 'bdm3y' in name or 'cdm3y' in name:
         print_bifold_dd(u, r, q, R=R, s=s, show=show, info=info, ncol=ncol, fmt=fmt, omit=omit, data_format=data_format)
+    elif name == 'unnamed':
+        print_func(u, r, show=show, info=info, ncol=ncol, fmt=fmt, omit=omit, data_format=data_format)
     else:
         print(f'Something went wrong while printing! {name} is undefined.')
         QUIT = True
@@ -380,10 +393,10 @@ def print_all(u, r, q, R=None, s=None, title='', show='u_R_short', info=True, fi
 
 
 def print_potentials(u, r, q, R=None, s=None, title='', show='u_R', info=False, file=None,
-                  logo=False, ncol=1, fmt=None, header=None, omit='#', data_format=0):
+                  logo=False, ncol=1, fmt=None, omit='#', data_format=0):
 
     fmt = ['>9.4f', '>17.9e'] if fmt == None else fmt
 
     print_all(u, r, q, R=R, s=s, title=title, show=show, info=info, file=file,
-              logo=logo, ncol=ncol, fmt=fmt, header=header, omit=omit,
+              logo=logo, ncol=ncol, fmt=fmt, omit=omit,
               data_format=data_format)
