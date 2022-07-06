@@ -1,4 +1,4 @@
-from bifold.filon import *
+from bifold import *
 
 e_lab = 172.5
 z_proj, a_proj =  2,  4
