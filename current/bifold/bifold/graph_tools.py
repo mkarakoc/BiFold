@@ -41,7 +41,7 @@ def plot_potentials(u, R, part='total', space='func_r', func='u_R', legends=None
 
     # to plot all the given potentials with the all parts
     if part == 'all' and isinstance(u, list):
-        if legend_ext[0] != '':
+        if legend_ext != None:
             legend_ext =  [[li, li, li] for li in legend_ext]
             legend_ext = sum(legend_ext, [])
 
