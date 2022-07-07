@@ -16,7 +16,7 @@ vnn = f_2prm_gaussian(r, -33.5606, (1/0.5889)**.5)
 u1 = f_2prm_gaussian(R, -122.6225, (1/0.22)**.5)
 
 # DFPOT calculation
-u2 = f_external(R, r'.\a_a_dfpot_FORT4.txt', data_format=2)
+u2 = f_external(R, r'a_a_dfpot_FORT4.txt', data_format=2)
 
 # BiFold calculation
 u3 = u_bifold_d(rho_p, rho_t, vnn, r, q)

@@ -1,3 +1,6 @@
+# os independent paths
+from os import path
+
 # to use simpson integration by default
 from bifold import *
 
@@ -42,15 +45,16 @@ print_all(u1, R, q, title=title_u1)
 print('\n\n\n')
 print_all(u2, R, q, title=title_u2)
 
+dfpot_calc = lambda fname: path.join('dfpot_calc', fname)
 # calculations obtained using DFPOT for M3Y - Reid [direct part] and zero range [exchange part]
-u1_dfpot = f_external(R, r'.\dfpot_calc\reid_m3y_zr_FORT4.txt', data_format=2)
-u1_dfpot_d = f_external(R, r'.\dfpot_calc\reid_m3y_zr_direct_FORT4.txt', data_format=2)
-u1_dfpot_e = f_external(R, r'.\dfpot_calc\reid_m3y_zr_exchange_FORT4.txt', data_format=2)
+u1_dfpot = f_external(R, dfpot_calc('reid_m3y_zr_FORT4.txt'), data_format=2)
+u1_dfpot_d = f_external(R, dfpot_calc('reid_m3y_zr_direct_FORT4.txt'), data_format=2)
+u1_dfpot_e = f_external(R, dfpot_calc('reid_m3y_zr_exchange_FORT4.txt'), data_format=2)
 
 # calculations obtained using DFPOT for M3Y - Paris [direct part] and zero range [exchange part]
-u2_dfpot = f_external(R, r'.\dfpot_calc\paris_m3y_zr_FORT4.txt', data_format=2)
-u2_dfpot_d = f_external(R, r'.\dfpot_calc\paris_m3y_zr_direct_FORT4.txt', data_format=2)
-u2_dfpot_e = f_external(R, r'.\dfpot_calc\paris_m3y_zr_exchange_FORT4.txt', data_format=2)
+u2_dfpot = f_external(R, dfpot_calc('paris_m3y_zr_FORT4.txt'), data_format=2)
+u2_dfpot_d = f_external(R, dfpot_calc('paris_m3y_zr_direct_FORT4.txt'), data_format=2)
+u2_dfpot_e = f_external(R, dfpot_calc('paris_m3y_zr_exchange_FORT4.txt'), data_format=2)
 
 # following line to compare BiFold and DFPOT calculations using matplotlib.
 import matplotlib.pyplot as plt
