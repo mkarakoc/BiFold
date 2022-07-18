@@ -119,11 +119,14 @@ def volumes(func):
             n = None if not 'n' in kkeys else kwargs['n']
             fv = volumes_int(r, fr, norm=norm, L=L, name=func_name,
                              c=c, alpha=alpha, beta=beta, gamma=gamma, n=n)
+        elif func_name == 'f_dirac_delta':
+            fv = {'name': func_name, 'L': L, 'norm': norm, 'renorm':1.0, 'vol2': float(fr[0]), 'vol4': 0., 'msr': 0.}
+        elif 'k_fermi' in func_name:
+            Cs = None if not 'Cs' in kkeys else kwargs['Cs']
+            fv = volumes_int(r, fr, norm=norm, L=L, name=func_name, Cs=Cs)
         else:
             fv = volumes_int(r, fr, norm=norm, L=L, name=func_name)
 
-        if func_name == 'f_dirac_delta':
-            fv = {'name': func_name, 'L': L, 'norm': norm, 'renorm':1.0, 'vol2': float(fr[0]), 'vol4': 0., 'msr': 0.}
 
         fr *= fv['renorm']
         return keep_info([fr, [fv]])
