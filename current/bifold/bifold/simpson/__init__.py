@@ -1,4 +1,4 @@
-from ..bifold import *
+from .simpson import *
 
 # https://packaging.python.org/en/latest/tutorials/packaging-projects/
 # https://python-packaging.readthedocs.io/en/latest/minimal.html

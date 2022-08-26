@@ -16,7 +16,7 @@
 # 02110-1301, USA.
 
 """
-This module calculates the double folding potentials with Filon's integration.
+This module calculates the double folding potentials with Simpson's integration.
 """
 
 from ..graph_tools import *
@@ -100,7 +100,7 @@ def u_xdm3yn_fr(e_lab, a_proj, a_targ, rho_p, rho_t, u_coul, r, q, R=None, s=Non
     u_R_info = {'name': f'u_{dd_name}_{vnn_name}_fr', 'L': 0, 'norm': None, 'renorm':1.0,
                 'vol2': u_R_vol2, 'vol4': u_R_vol4, 'msr': u_R_msr}
 
-    u_q = pi4 * fourier_with_filon(u_R, R, q)
+    u_q = pi4 * fourier_with_simpson(u_R, R, q)
     return {'func_i': {'total': {'u_R': [u_R_info]}, 'direct': u_d['func_i'], 'exchange': u_ex['func_i']},
             'func_r': {'total': {'u_R': u_R},        'direct': u_d['func_r'], 'exchange': u_ex['func_r']},
             'func_q': {'total': {'u_R': u_q},        'direct': u_d['func_q'], 'exchange': u_ex['func_q']}}
@@ -119,7 +119,7 @@ def u_xdm3yn_zr(e_lab, a_proj, rho_p, rho_t, r, q, R=None, s=None, dd_name='bdm3
     u_R_info = {'name': f'u_{dd_name}_{vnn_name}_zr', 'L': 0, 'norm': None, 'renorm':1.0,
                 'vol2': u_R_vol2, 'vol4': u_R_vol4, 'msr': u_R_msr}
 
-    u_q = pi4 * fourier_with_filon(u_R, R, q)
+    u_q = pi4 * fourier_with_simpson(u_R, R, q)
     return {'func_i': {'total': {'u_R': [u_R_info]}, 'direct': u_d['func_i'], 'exchange': u_ex['func_i']},
             'func_r': {'total': {'u_R': u_R},        'direct': u_d['func_r'], 'exchange': u_ex['func_r']},
             'func_q': {'total': {'u_R': u_q},        'direct': u_d['func_q'], 'exchange':u_ex['func_q']}}
@@ -258,8 +258,8 @@ def u_xdm3yn_ex_fr(e_lab, a_proj, a_targ, rho_p, rho_t, u_d, u_coul_dict, r, q, 
     kf_p = k_fermi_spline(r, rho_p(), Cs=Cs) if any([ci in rho_p_name for ci in check_f_names]) else k_fermi(r, rho_p(), Cs=Cs)
     kf_t = k_fermi_spline(r, rho_t(), Cs=Cs) if any([ci in rho_t_name for ci in check_f_names]) else k_fermi(r, rho_t(), Cs=Cs)
 
-    fa = pi4 * fqs_with_filon(rho_p(), r, kf_p(), s, q)
-    fA = pi4 * fqs_with_filon(rho_t(), r, kf_t(), s, q)
+    fa = pi4 * fqs_with_simpson(rho_p(), r, kf_p(), s, q)
+    fA = pi4 * fqs_with_simpson(rho_t(), r, kf_t(), s, q)
 
     if 'dim3y' in dd_name:
         gE = None
@@ -268,8 +268,8 @@ def u_xdm3yn_ex_fr(e_lab, a_proj, a_targ, rho_p, rho_t, u_d, u_coul_dict, r, q, 
         frho_p_dd = f_rho_dd(r, rho_p, beta=b)
         frho_t_dd = f_rho_dd(r, rho_t, beta=b)
 
-        fa_exp = pi4 * fqs_with_filon(frho_p_dd(), r, kf_p(), s, q)
-        fA_exp = pi4 * fqs_with_filon(frho_t_dd(), r, kf_t(), s, q)
+        fa_exp = pi4 * fqs_with_simpson(frho_p_dd(), r, kf_p(), s, q)
+        fA_exp = pi4 * fqs_with_simpson(frho_t_dd(), r, kf_t(), s, q)
 
         dFqs = fa * fA + a * (fa_exp * fA_exp)
     elif 'cdm3y' in dd_name:
@@ -277,23 +277,23 @@ def u_xdm3yn_ex_fr(e_lab, a_proj, a_targ, rho_p, rho_t, u_d, u_coul_dict, r, q, 
         frho_t_dd = f_rho_dd(r, rho_t, beta=b)
         frho_p_bd = f_rho_bd(r, rho_p, n=1)
         frho_t_bd = f_rho_bd(r, rho_t, n=1)
-        fa_exp = pi4 * fqs_with_filon(frho_p_dd(), r, kf_p(), s, q)
-        fA_exp = pi4 * fqs_with_filon(frho_t_dd(), r, kf_t(), s, q)
-        fa2 = pi4 * fqs_with_filon(frho_p_bd(), r, kf_p(), s, q)
-        fA2 = pi4 * fqs_with_filon(frho_t_bd(), r, kf_t(), s, q)
+        fa_exp = pi4 * fqs_with_simpson(frho_p_dd(), r, kf_p(), s, q)
+        fA_exp = pi4 * fqs_with_simpson(frho_t_dd(), r, kf_t(), s, q)
+        fa2 = pi4 * fqs_with_simpson(frho_p_bd(), r, kf_p(), s, q)
+        fA2 = pi4 * fqs_with_simpson(frho_t_bd(), r, kf_t(), s, q)
         dFqs = fa * fA + a * (fa_exp * fA_exp) - g* (fa * fA2 + fa2 * fA)
     elif 'bdm3y' in dd_name:
         frho_p_bd = f_rho_bd(r, rho_p, n=n)
         frho_t_bd = f_rho_bd(r, rho_t, n=n)
-        fa2 = pi4 * fqs_with_filon(frho_p_bd(), r, kf_p(), s, q)
-        fA2 = pi4 * fqs_with_filon(frho_t_bd(), r, kf_t(), s, q)
+        fa2 = pi4 * fqs_with_simpson(frho_p_bd(), r, kf_p(), s, q)
+        fA2 = pi4 * fqs_with_simpson(frho_t_bd(), r, kf_t(), s, q)
 
         dFqs = fa * fA - g * (fa * fA2 + fa2 * fA)
     else:
         print('Something went wrong!')
         quit()
 
-    dGRs = pi2_inv * gRs_with_filon(dFqs, R, s, q)
+    dGRs = pi2_inv * gRs_with_simpson(dFqs, R, s, q)
 
 
     if u_ex_iter <= 0:
@@ -309,9 +309,9 @@ def u_xdm3yn_ex_fr(e_lab, a_proj, a_targ, rho_p, rho_t, u_d, u_coul_dict, r, q, 
         k_local = sqrt( abs(k2_local_mom_direct) ) / a_reduced
         if c==None:
             # density independent finite range exchange potential
-            u_ex = pi4 * u_ex_with_filon(dGRs, k_local, vnn(), R, s)
+            u_ex = pi4 * u_ex_with_simpson(dGRs, k_local, vnn(), R, s)
         else:
-            u_ex = c * gE * pi4 * u_ex_with_filon(dGRs, k_local, vnn(), R, s)
+            u_ex = c * gE * pi4 * u_ex_with_simpson(dGRs, k_local, vnn(), R, s)
 
     u_R = u_ex
     u_R_vol2, u_R_vol4, u_R_msr = vol_msr(R, u_R)
@@ -319,12 +319,12 @@ def u_xdm3yn_ex_fr(e_lab, a_proj, a_targ, rho_p, rho_t, u_d, u_coul_dict, r, q, 
                 'vol2': u_R_vol2, 'vol4': u_R_vol4, 'msr': u_R_msr,
                 'c':c, 'alpha':a, 'beta':b, 'gamma':g, 'n':n, 'gE':gE}
 
-    u_q = pi4 * fourier_with_filon(u_R, R, q)
-    rho_pq = pi4 * fourier_with_filon(rho_p(), r, q)
-    rho_tq = pi4 * fourier_with_filon(rho_t(), r, q)
-    vnn_q  = pi4 * fourier_with_filon(vnn(), s, q)
-    kf_pq = pi4 * fourier_with_filon(kf_p(), r, q)
-    kf_tq = pi4 * fourier_with_filon(kf_t(), r, q)
+    u_q = pi4 * fourier_with_simpson(u_R, R, q)
+    rho_pq = pi4 * fourier_with_simpson(rho_p(), r, q)
+    rho_tq = pi4 * fourier_with_simpson(rho_t(), r, q)
+    vnn_q  = pi4 * fourier_with_simpson(vnn(), s, q)
+    kf_pq = pi4 * fourier_with_simpson(kf_p(), r, q)
+    kf_tq = pi4 * fourier_with_simpson(kf_t(), r, q)
 
     return {'func_i': {'u_R': [u_R_info], 'rho_p':rho_p.info, 'rho_t':rho_t.info,
                        'vnn':vnn.info,    'kf_p': kf_p.info,  'kf_t': kf_t.info, 'u_coul': u_coul_info},
@@ -594,12 +594,12 @@ def u_bifold_d(rho_p, rho_t, vnn, r, q, R=None, s=None):
     R = r.copy() if R is None else R
     s = r.copy() if s is None else s
 
-    rho_pq = pi4 * fourier_with_filon(rho_p(), r, q)
-    rho_tq = pi4 * fourier_with_filon(rho_t(), r, q)
-    vnn_q  = pi4 * fourier_with_filon(vnn(), s, q)
+    rho_pq = pi4 * fourier_with_simpson(rho_p(), r, q)
+    rho_tq = pi4 * fourier_with_simpson(rho_t(), r, q)
+    vnn_q  = pi4 * fourier_with_simpson(vnn(), s, q)
 
     u_q = rho_pq * rho_tq * vnn_q
-    u_R = pi2_inv * fourier_with_filon(u_q, q, R)
+    u_R = pi2_inv * fourier_with_simpson(u_q, q, R)
     u_R_vol2, u_R_vol4, u_R_msr = vol_msr(R, u_R)
 
     u_R_info = {'name':'u_direct', 'L':0, 'norm': None, 'renorm':1.0,
@@ -614,12 +614,12 @@ def u_bifold_ex_zr(rho_p, rho_t, vnn, r, q, R=None, s=None):
     R = r.copy() if R is None else R
     s = r.copy() if s is None else s
 
-    rho_pq = pi4 * fourier_with_filon(rho_p(), r, q)
-    rho_tq = pi4 * fourier_with_filon(rho_t(), r, q)
+    rho_pq = pi4 * fourier_with_simpson(rho_p(), r, q)
+    rho_tq = pi4 * fourier_with_simpson(rho_t(), r, q)
     vnn_q  = vnn()[0] + 0*q
 
     u_q = rho_pq * rho_tq * vnn_q
-    u_R = pi2_inv * fourier_with_filon(u_q, q, R)
+    u_R = pi2_inv * fourier_with_simpson(u_q, q, R)
     u_R_vol2, u_R_vol4, u_R_msr = vol_msr(R, u_R)
 
     u_R_info = {'name':'u_exchange_zr', 'L':0, 'norm': None, 'renorm':1.0,

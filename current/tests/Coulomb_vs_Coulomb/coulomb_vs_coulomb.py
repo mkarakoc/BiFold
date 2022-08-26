@@ -1,5 +1,6 @@
-from bifold import *
-#from bifold.filon import *
+#from bifold import *
+#from bifold.simpson import *
+from bifold.filon import *
 
 r = mesh(zero, 10, 0.05)  # fm
 q = mesh(zero,  3, 0.02)  # fm^-1
