@@ -131,7 +131,7 @@ def u_xdm3yn_d(e_lab, a_proj, rho_p, rho_t, r, q, R=None, s=None, dd_name='bdm3y
     s = r.copy() if s is None else s
 
     try:
-        c, a, b, g, n, K, implemented = v_Xdm3yn_cabgn(dd_name=dd_name, vnn_name=vnn_name)
+        c, a, b, g, n, K, implemented = v_xdm3yn_cabgn(dd_name=dd_name, vnn_name=vnn_name)
         if not implemented:
             print(f'{dd_name}_{vnn_name}: (C={c}, alpha={a}, beta={b}, gamma={g}, n={n}) is not implemented yet.')
             quit()
@@ -232,7 +232,7 @@ def u_xdm3yn_ex_fr(e_lab, a_proj, a_targ, rho_p, rho_t, u_d, u_coul_dict, r, q, 
         print("Please use 'u_coul_ucs()' or 'u_coul_bifold_d()' for Coulomb potential.")
 
     try:
-        c, a, b, g, n, K, implemented = v_Xdm3yn_cabgn(dd_name=dd_name, vnn_name=vnn_name)
+        c, a, b, g, n, K, implemented = v_xdm3yn_cabgn(dd_name=dd_name, vnn_name=vnn_name)
         if not implemented:
             print(f'{dd_name}_{vnn_name}: (C={c}, alpha={a}, beta={b}, gamma={g}, n={n}) is not implemented yet.')
             quit()
@@ -338,7 +338,7 @@ def u_xdm3yn_ex_zr(e_lab, a_proj, rho_p, rho_t, r, q, R=None, s=None, dd_name='b
     s = r.copy() if s is None else s
 
     try:
-        c, a, b, g, n, K, implemented = v_Xdm3yn_cabgn(dd_name=dd_name, vnn_name=vnn_name)
+        c, a, b, g, n, K, implemented = v_xdm3yn_cabgn(dd_name=dd_name, vnn_name=vnn_name)
         if not implemented:
             print(f'{dd_name}_{vnn_name}: (C={c}, alpha={a}, beta={b}, gamma={g}, n={n}) is not implemented yet.')
             quit()

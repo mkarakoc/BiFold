@@ -194,7 +194,7 @@ def v_ddm3y_reid_cab(e_lab, a_proj):
 #..........................................................................#
 #******** Density Dependent M3Y - Reid/Paris [B/C/D-DM3Y: Xdm3yn] *********#
 #..........................................................................#
-def v_Xdm3yn_cabgn(dd_name='bdm3y1', vnn_name='reid'):
+def v_xdm3yn_cabgn(dd_name='bdm3y1', vnn_name='reid'):
     """
     Xdm3yn: X stands for d, b, c and n is an integer
     X=d, n=1 --> ddm3y1
