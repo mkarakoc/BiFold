@@ -481,13 +481,13 @@ def f_internet(r, url, norm=None, L=0, data_format=3):
     fr *= fv['renorm']
     return keep_info([fr, [fv]])
 
-def f_nudat(r, Z=8, A=16, norm=None, L=0, data_format=3):
-    """Creates an interpolated function from a data file given in the NuDat website.
+def f_ripl(r, Z=8, A=16, norm=None, L=0, data_format=3):
+    """Creates an interpolated function from a data file given in the RIPL website.
     See f_external() for the reading formats of the data file.
     """
     url = f'https://www-nds.iaea.org/cgi-bin/ripl_masses_nmd.pl?Z={Z}&A={A}'
     fr = f_internet(r, url, norm=norm, L=L, data_format=data_format).value
-    fv = volumes_int(r, fr, norm=norm, L=L, name='f_nudat')
+    fv = volumes_int(r, fr, norm=norm, L=L, name='f_ripl')
     fr *= fv['renorm']
     return keep_info([fr, [fv]])
 

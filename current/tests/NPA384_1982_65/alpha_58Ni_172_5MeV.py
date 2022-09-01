@@ -8,7 +8,7 @@ r = mesh(zero, 11, 0.02)  # fm
 q = mesh(zero,  3, 0.02)  # fm^-1
 
 rho_p = f_2prm_gaussian(r, 0.4229, (1/0.7024)**.5)
-rho_t = f_nudat(r, z_targ, a_targ)
+rho_t = f_ripl(r, z_targ, a_targ)
 u_ddm3y = u_ddm3y_reid_zr(e_lab, a_proj, rho_p, rho_t, r, q)
 u_m3y = u_m3y_reid_zr(e_lab, a_proj, rho_p, rho_t, r, q)
 

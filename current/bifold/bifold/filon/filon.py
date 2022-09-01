@@ -253,7 +253,7 @@ def u_xdm3yn_ex_fr(e_lab, a_proj, a_targ, rho_p, rho_t, u_d, u_coul_dict, r, q, 
 
     rho_p_name = rho_p.info[0]['name']
     rho_t_name = rho_t.info[0]['name']
-    check_f_names = ['f_external', 'f_internet', 'f_nudat']
+    check_f_names = ['f_external', 'f_internet', 'f_ripl']
 
     kf_p = k_fermi_spline(r, rho_p(), Cs=Cs) if any([ci in rho_p_name for ci in check_f_names]) else k_fermi(r, rho_p(), Cs=Cs)
     kf_t = k_fermi_spline(r, rho_t(), Cs=Cs) if any([ci in rho_t_name for ci in check_f_names]) else k_fermi(r, rho_t(), Cs=Cs)
@@ -442,7 +442,7 @@ def k_fermi(r, f, Cs=1/36):
 
 @volumes
 def k_fermi_spline(r, f, Cs=1/36):
-    """Calculates local momentum when 'f' functions is one oft the 'f_external', 'f_internet' and 'f_nudat' functions.
+    """Calculates local momentum when 'f' functions is one oft the 'f_external', 'f_internet' and 'f_ripl' functions.
     Spline is necessary to smooth the derivatives of the 'f' function.
     """
     f = f_spline(r, f)
