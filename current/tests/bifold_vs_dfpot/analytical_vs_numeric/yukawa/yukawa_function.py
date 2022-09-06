@@ -11,7 +11,7 @@ def u_analytically_folded(r, rho0, a, v0, c):
     u[0] = f_0(r, u)
     return u
 
-rho0, a = 3.768, 4.558
+rho0, a = 4.03242, 4.66232
 v1, b1, v2, b2 = +7999.00, 4.0, -2134.25, 2.5
 
 r = mesh(zero,  5, 0.02)  # fm
@@ -32,5 +32,5 @@ print_all(u_bf2, r, q2)
 
 analytic = pplot(r, u_f1 + u_f2, label='analytic',linestyle = 'None',
                  marker='o', markevery=10, color='red', alpha=0.5, lw=2, ms=6)
-plot_potentials([u_bf1, u_bf2], r, add_plot=analytic, colors=['black', 'blue'],
+plot_potentials([u_bf1, u_bf2], r, add_plot=analytic, colors=['black', 'blue','orange'],
                 legends=['bifold - $q_{max}$ = 10 fm$^{-1}$', 'bifold - $q_{max}$ = 3 fm$^{-1}$'])
