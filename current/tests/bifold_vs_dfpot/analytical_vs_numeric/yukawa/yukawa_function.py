@@ -11,7 +11,7 @@ def u_analytically_folded(r, rho0, a, v0, c):
     u[0] = f_0(r, u)
     return u
 
-rho0, a = 4.03242, 4.66232
+rho0, a = 2.58255, 4.0188
 v1, b1, v2, b2 = +7999.00, 4.0, -2134.25, 2.5
 
 r = mesh(zero,  5, 0.02)  # fm
