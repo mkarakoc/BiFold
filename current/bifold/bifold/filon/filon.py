@@ -19,12 +19,13 @@
 This module calculates the double folding potentials with Filon's integration.
 """
 
+from ..constants import *
+from ..matematik import *
+from ..functions import *
+from ..interactions import *
 from ..graph_tools import *
 from ..print_tools import *
-from ..constants import *
-from ..functions import *
-from .matematik import *
-from ..interactions import *
+from .integrals import *
 
 # Coulomb potential energy of uniformly charged spheres
 @volumes

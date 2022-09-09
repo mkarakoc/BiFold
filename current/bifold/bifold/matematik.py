@@ -20,9 +20,8 @@ This module contains the mathematical tools needed for
 reaction calculations.
 """
 
-from ..time_check import timer
 from numpy import (sin, cos, arange, append, array,
-                   sum, power, interp, polyval)
+                   sqrt, power, interp, polyval)
 from scipy.interpolate import make_interp_spline as spline
 from numba import njit
 
@@ -35,61 +34,6 @@ def mesh(r_min, r_max, dr):
     if len(r_space) % 2 == 0:
         r_space = arange(r_min, r_max + 2*dr, dr)
     return r_space
-
-###########################
-# Simpson integration with Numba
-##########################
-@njit
-#@cc.export('j_simpson', 'f8(f8[:], f8[:])')
-def simpson(f, r):
-    """
-    Calculates integrate of f function over r
-    using Simpson 1/3 rule.
-    """
-    dr = r[1] - r[0]
-    f_even = sum(f[:-1][2::2])
-    f_odd  = sum(f[1::2])
-    return (f[0] + 2*f_even + 4*f_odd + f[-1]) * dr/3
-
-@njit
-def fourier_with_simpson(f, r, q, n=0):
-    fq = q.copy()
-    fr2 = f * r*r
-    for i in range(*fq.shape):
-        qr = q[i] * r
-        fq[i] = simpson(fr2 * j_n(n, qr), r)
-    return fq
-
-# @timer
-@njit
-def u_ex_with_simpson(dGRs, k, vnn_ex, R, s, n=0):
-    u0_ex = R.copy()
-    vnn_ex_s2 = vnn_ex * s*s
-    for iR in range(*u0_ex.shape):
-        ks = k[iR]*s
-        u0_ex[iR] = simpson(dGRs[iR, :] * vnn_ex_s2 * j_n(n, ks), s)
-    return u0_ex
-
-# @timer
-@njit
-def fqs_with_simpson(fr2, r, g, s, q):
-    fqs = q.reshape(-1, 1) * s.reshape(1, -1)
-    _, ns = fqs.shape
-    for j in range(ns):
-        fqs[:, j] = fourier_with_simpson(fr2 * j_hat_1(g * s[j]), r, q)
-    return fqs
-
-# @timer
-@njit
-def gRs_with_simpson(dFqs, R, s, q, n=0):
-    grs = R.reshape(-1, 1) * s.reshape(1, -1)
-    nr, ns = grs.shape
-    q2 = q * q
-    for i in range(nr):
-        qR = q * R[i]
-        for j in range(ns):
-            grs[i, j] = simpson( dFqs.T[j, :] * q2 * j_n(n, qR), q)
-    return grs
 
 @njit
 def f_der1(r_mesh, f_mesh):
@@ -237,3 +181,65 @@ def f_extrapolate(r, r_min, r_max, f_poly_val):
     f_poly = polyval(array(f_poly_val), r_poly)
     f_interp = interp(r, r_poly, f_poly)
     return f_spline(r, f_interp)
+
+#..........................................................................#
+#******** Tools for error analysis *********#
+#..........................................................................#
+
+def stdev(data):
+    """
+    data : 1D array
+    mean : mean of the "data"
+    stdev: standard deviation of the "data"
+
+    returns:
+    mean, stdev
+    """
+    n = len(data)
+    mean = sum(data) / n
+    distance = mean - data
+    stdev = sqrt(sum(distance ** 2) / n)
+    return mean, stdev
+
+def mafe(yr, yc):
+    """
+    yr   : reference values (array)
+    yc   : comapred values (array)
+    n    : data number (integer)
+    merr : mafe (Mean absolute fractional error) (float)
+    serr : standard deviation of merr
+    ferr : fractional individual errors
+
+    ferr = abs(1 - yc/yr)
+    merr = 1/n sum(ferr)
+
+    returns:
+    merr, serr, ferr
+
+    Reference:
+    https://en.wikipedia.org/wiki/Mean_absolute_percentage_error
+    """
+    n = len(yr)
+    ferr = abs(1 - yc / yr)
+    merr, serr = stdev(ferr)
+    return merr, serr, ferr
+
+
+def mape(yr, yc):
+    """
+    yr    : reference values (array)
+    yc    : comapred values (array)
+    mperr : mape (Mean absolute percentage error) (float)
+    sperr : standard deviation of mperr
+    fperr : percentage individual errors
+
+
+    mperr, sperr, fperr = 100 * mafe_err(yr, yc)
+
+    returns:
+    mperr, sperr, fperr
+
+    Reference:
+    https://en.wikipedia.org/wiki/Mean_absolute_percentage_error
+    """
+    return tuple([100 * m for m in mafe(yr, yc)])

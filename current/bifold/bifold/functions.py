@@ -18,7 +18,7 @@
 """
 This module provides the necessary functions for structure and reactions.
 """
-from .matematik import simpson
+from .simpson.integrals import simpson
 from .constants import *
 
 from numpy import (exp, loadtxt, interp, arange, append, array,
