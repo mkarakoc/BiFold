@@ -123,7 +123,7 @@ def u_xdm3yn_zr(e_lab, a_proj, rho_p, rho_t, r, q, R=None, s=None, dd_name='bdm3
     u_q = pi4 * fourier_with_simpson(u_R, R, q)
     return {'func_i': {'total': {'u_R': [u_R_info]}, 'direct': u_d['func_i'], 'exchange': u_ex['func_i']},
             'func_r': {'total': {'u_R': u_R},        'direct': u_d['func_r'], 'exchange': u_ex['func_r']},
-            'func_q': {'total': {'u_R': u_q},        'direct': u_d['func_q'], 'exchange':u_ex['func_q']}}
+            'func_q': {'total': {'u_R': u_q},        'direct': u_d['func_q'], 'exchange': u_ex['func_q']}}
 
 
 def u_xdm3yn_d(e_lab, a_proj, rho_p, rho_t, r, q, R=None, s=None, dd_name='bdm3y1', vnn_name='reid'):
@@ -179,15 +179,42 @@ def u_xdm3yn_d(e_lab, a_proj, rho_p, rho_t, r, q, R=None, s=None, dd_name='bdm3y
                         g*(u_d_part3['func_r']['u_R'] + u_d_part4['func_r']['u_R']))
         u_q = c*gE * (u_d_part1['func_q']['u_R'] + a * u_d_part2['func_q']['u_R'] -
                         g*(u_d_part3['func_q']['u_R'] + u_d_part4['func_q']['u_R']))
-    elif 'bdm3y' in dd_name:
-        frho_p = f_rho_bd(r, rho_p, n=n)
-        frho_t = f_rho_bd(r, rho_t, n=n)
+    elif 'bdm3y1' in dd_name:
+        frho_p = f_rho_bd(r, rho_p, n=1)
+        frho_t = f_rho_bd(r, rho_t, n=1)
 
         u_d_part2 = 0
         u_d_part3 = u_bifold_d(frho_p, rho_t, vnn, r, q, R, s)
         u_d_part4 = u_bifold_d(rho_p, frho_t, vnn, r, q, R, s)
         u_R = c*gE * (u_d_part1['func_r']['u_R'] - g * (u_d_part3['func_r']['u_R'] + u_d_part4['func_r']['u_R']))
         u_q = c*gE * (u_d_part1['func_q']['u_R'] - g * (u_d_part3['func_q']['u_R'] + u_d_part4['func_q']['u_R']))
+    elif 'bdm3y2' in dd_name:
+        frho_p1 = f_rho_bd(r, rho_p, n=1)
+        frho_t1 = f_rho_bd(r, rho_t, n=1)
+        frho_p2 = f_rho_bd(r, rho_p, n=2)
+        frho_t2 = f_rho_bd(r, rho_t, n=2)
+
+        u_d_part2 = 0
+        u_d_part3 = u_bifold_d(frho_p2, rho_t, vnn, r, q, R, s)
+        u_d_part4 = u_bifold_d(rho_p, frho_t2, vnn, r, q, R, s)
+        u_d_part5 = u_bifold_d(frho_p1, frho_t1, vnn, r, q, R, s)
+        u_R = c*gE * (u_d_part1['func_r']['u_R'] - g * (u_d_part3['func_r']['u_R'] + u_d_part4['func_r']['u_R'] + 2*u_d_part5['func_r']['u_R']))
+        u_q = c*gE * (u_d_part1['func_q']['u_R'] - g * (u_d_part3['func_q']['u_R'] + u_d_part4['func_q']['u_R'] + 2*u_d_part5['func_q']['u_R']))
+    elif 'bdm3y3' in dd_name:
+        frho_p1 = f_rho_bd(r, rho_p, n=1)
+        frho_t1 = f_rho_bd(r, rho_t, n=1)
+        frho_p2 = f_rho_bd(r, rho_p, n=2)
+        frho_t2 = f_rho_bd(r, rho_t, n=2)
+        frho_p3 = f_rho_bd(r, rho_p, n=3)
+        frho_t3 = f_rho_bd(r, rho_t, n=3)
+
+        u_d_part2 = 0
+        u_d_part3 = u_bifold_d(frho_p3, rho_t, vnn, r, q, R, s)
+        u_d_part4 = u_bifold_d(rho_p, frho_t3, vnn, r, q, R, s)
+        u_d_part5 = u_bifold_d(frho_p2, frho_t1, vnn, r, q, R, s)
+        u_d_part6 = u_bifold_d(frho_p1, frho_t2, vnn, r, q, R, s)
+        u_R = c*gE * (u_d_part1['func_r']['u_R'] - g * (u_d_part3['func_r']['u_R'] + u_d_part4['func_r']['u_R'] + 3*u_d_part5['func_r']['u_R'] + 3*u_d_part6['func_r']['u_R']))
+        u_q = c*gE * (u_d_part1['func_q']['u_R'] - g * (u_d_part3['func_q']['u_R'] + u_d_part4['func_q']['u_R'] + 3*u_d_part5['func_q']['u_R'] + 3*u_d_part6['func_q']['u_R']))
     else:
         print('Something went wrong!')
         quit()
@@ -209,10 +236,18 @@ def u_xdm3yn_d(e_lab, a_proj, rho_p, rho_t, r, q, R=None, s=None, dd_name='bdm3y
         return {'func_i': {'u_R': [u_R_info], 'part1': u_d_part1['func_i'], 'part2': u_d_part2['func_i'], 'part3': u_d_part3['func_i'], 'part4': u_d_part4['func_i']},
                 'func_r': {'u_R': u_R,        'part1': u_d_part1['func_r'], 'part2': u_d_part2['func_r'], 'part3': u_d_part3['func_r'], 'part4': u_d_part4['func_r']},
                 'func_q': {'u_R': u_q,        'part1': u_d_part1['func_q'], 'part2': u_d_part2['func_q'], 'part3': u_d_part3['func_q'], 'part4': u_d_part4['func_q']}}
-    elif 'bdm3y' in dd_name:
+    elif 'bdm3y1' in dd_name:
         return {'func_i': {'u_R': [u_R_info], 'part1': u_d_part1['func_i'], 'part3': u_d_part3['func_i'], 'part4': u_d_part4['func_i']},
                 'func_r': {'u_R': u_R,        'part1': u_d_part1['func_r'], 'part3': u_d_part3['func_r'], 'part4': u_d_part4['func_r']},
                 'func_q': {'u_R': u_q,        'part1': u_d_part1['func_q'], 'part3': u_d_part3['func_q'], 'part4': u_d_part4['func_q']}}
+    elif 'bdm3y2' in dd_name:
+        return {'func_i': {'u_R': [u_R_info], 'part1': u_d_part1['func_i'], 'part3': u_d_part3['func_i'], 'part4': u_d_part4['func_i'], 'part5': u_d_part5['func_i']},
+                'func_r': {'u_R': u_R,        'part1': u_d_part1['func_r'], 'part3': u_d_part3['func_r'], 'part4': u_d_part4['func_r'], 'part5': u_d_part5['func_r']},
+                'func_q': {'u_R': u_q,        'part1': u_d_part1['func_q'], 'part3': u_d_part3['func_q'], 'part4': u_d_part4['func_q'], 'part5': u_d_part5['func_q']}}
+    elif 'bdm3y3' in dd_name:
+        return {'func_i': {'u_R': [u_R_info], 'part1': u_d_part1['func_i'], 'part3': u_d_part3['func_i'], 'part4': u_d_part4['func_i'], 'part5': u_d_part5['func_i'], 'part6': u_d_part6['func_i']},
+                'func_r': {'u_R': u_R,        'part1': u_d_part1['func_r'], 'part3': u_d_part3['func_r'], 'part4': u_d_part4['func_r'], 'part5': u_d_part5['func_r'], 'part6': u_d_part6['func_r']},
+                'func_q': {'u_R': u_q,        'part1': u_d_part1['func_q'], 'part3': u_d_part3['func_q'], 'part4': u_d_part4['func_q'], 'part5': u_d_part5['func_q'], 'part6': u_d_part6['func_q']}}
 
 
 def u_xdm3yn_ex_fr(e_lab, a_proj, a_targ, rho_p, rho_t, u_d, u_coul_dict, r, q, R=None, s=None,
@@ -282,14 +317,42 @@ def u_xdm3yn_ex_fr(e_lab, a_proj, a_targ, rho_p, rho_t, u_d, u_coul_dict, r, q, 
         fA_exp = pi4 * fqs_with_simpson(frho_t_dd(), r, kf_t(), s, q)
         fa2 = pi4 * fqs_with_simpson(frho_p_bd(), r, kf_p(), s, q)
         fA2 = pi4 * fqs_with_simpson(frho_t_bd(), r, kf_t(), s, q)
-        dFqs = fa * fA + a * (fa_exp * fA_exp) - g* (fa * fA2 + fa2 * fA)
-    elif 'bdm3y' in dd_name:
-        frho_p_bd = f_rho_bd(r, rho_p, n=n)
-        frho_t_bd = f_rho_bd(r, rho_t, n=n)
+        dFqs = fa * fA + a * (fa_exp * fA_exp) - g* (fa2 * fA + fa * fA2)
+    elif 'bdm3y1' in dd_name:
+        frho_p_bd = f_rho_bd(r, rho_p, n=1)
+        frho_t_bd = f_rho_bd(r, rho_t, n=1)
         fa2 = pi4 * fqs_with_simpson(frho_p_bd(), r, kf_p(), s, q)
         fA2 = pi4 * fqs_with_simpson(frho_t_bd(), r, kf_t(), s, q)
 
-        dFqs = fa * fA - g * (fa * fA2 + fa2 * fA)
+        dFqs = fa * fA - g * (fa2 * fA + fa * fA2)
+    elif 'bdm3y2' in dd_name:
+        frho_p_bd1 = f_rho_bd(r, rho_p, n=1)
+        frho_t_bd1 = f_rho_bd(r, rho_t, n=1)
+        frho_p_bd2 = f_rho_bd(r, rho_p, n=2)
+        frho_t_bd2 = f_rho_bd(r, rho_t, n=2)
+
+        fa2 = pi4 * fqs_with_simpson(frho_p_bd1(), r, kf_p(), s, q)
+        fA2 = pi4 * fqs_with_simpson(frho_t_bd1(), r, kf_t(), s, q)
+        fa3 = pi4 * fqs_with_simpson(frho_p_bd2(), r, kf_p(), s, q)
+        fA3 = pi4 * fqs_with_simpson(frho_t_bd2(), r, kf_t(), s, q)
+
+        dFqs = fa * fA - g * (fa3 * fA + 2*fa2*fA2 + fa * fA3)
+    elif 'bdm3y3' in dd_name:
+        frho_p_bd1 = f_rho_bd(r, rho_p, n=1)
+        frho_t_bd1 = f_rho_bd(r, rho_t, n=1)
+        frho_p_bd2 = f_rho_bd(r, rho_p, n=2)
+        frho_t_bd2 = f_rho_bd(r, rho_t, n=2)
+        frho_p_bd3 = f_rho_bd(r, rho_p, n=3)
+        frho_t_bd3 = f_rho_bd(r, rho_t, n=3)
+
+        fa2 = pi4 * fqs_with_simpson(frho_p_bd1(), r, kf_p(), s, q)
+        fA2 = pi4 * fqs_with_simpson(frho_t_bd1(), r, kf_t(), s, q)
+        fa3 = pi4 * fqs_with_simpson(frho_p_bd2(), r, kf_p(), s, q)
+        fA3 = pi4 * fqs_with_simpson(frho_t_bd2(), r, kf_t(), s, q)
+        fa4 = pi4 * fqs_with_simpson(frho_p_bd3(), r, kf_p(), s, q)
+        fA4 = pi4 * fqs_with_simpson(frho_t_bd3(), r, kf_t(), s, q)
+
+        dFqs = fa * fA - g * (fa4 * fA + 3*fa3*fA2 + 3*fa2*fA3 + fa * fA4)
     else:
         print('Something went wrong!')
         quit()
@@ -385,14 +448,43 @@ def u_xdm3yn_ex_zr(e_lab, a_proj, rho_p, rho_t, r, q, R=None, s=None, dd_name='b
                         g*(u_d_part3['func_r']['u_R'] + u_d_part4['func_r']['u_R']))
         u_q = c*gE * (u_d_part1['func_q']['u_R'] + a * u_d_part2['func_q']['u_R'] -
                         g*(u_d_part3['func_q']['u_R'] + u_d_part4['func_q']['u_R']))
-    elif 'bdm3y' in dd_name:
-        frho_p = f_rho_bd(r, rho_p, n=n)
-        frho_t = f_rho_bd(r, rho_t, n=n)
+    elif 'bdm3y1' in dd_name:
+        frho_p = f_rho_bd(r, rho_p, n=1)
+        frho_t = f_rho_bd(r, rho_t, n=1)
+
         u_d_part2 = 0
         u_d_part3 = u_bifold_ex_zr(frho_p, rho_t, vnn, r, q, R, s)
         u_d_part4 = u_bifold_ex_zr(rho_p, frho_t, vnn, r, q, R, s)
         u_R = c*gE * (u_d_part1['func_r']['u_R'] - g * (u_d_part3['func_r']['u_R'] + u_d_part4['func_r']['u_R']))
         u_q = c*gE * (u_d_part1['func_q']['u_R'] - g * (u_d_part3['func_q']['u_R'] + u_d_part4['func_q']['u_R']))
+    elif 'bdm3y2' in dd_name:
+        frho_p1 = f_rho_bd(r, rho_p, n=1)
+        frho_t1 = f_rho_bd(r, rho_t, n=1)
+        frho_p2 = f_rho_bd(r, rho_p, n=2)
+        frho_t2 = f_rho_bd(r, rho_t, n=2)
+
+        u_d_part2 = 0
+        u_d_part3 = u_bifold_ex_zr(frho_p2, rho_t, vnn, r, q, R, s)
+        u_d_part4 = u_bifold_ex_zr(rho_p, frho_t2, vnn, r, q, R, s)
+        u_d_part5 = u_bifold_ex_zr(frho_p1, frho_t1, vnn, r, q, R, s)
+        u_R = c*gE * (u_d_part1['func_r']['u_R'] - g * (u_d_part3['func_r']['u_R'] + u_d_part4['func_r']['u_R'] + 2*u_d_part5['func_r']['u_R']))
+        u_q = c*gE * (u_d_part1['func_q']['u_R'] - g * (u_d_part3['func_q']['u_R'] + u_d_part4['func_q']['u_R'] + 2*u_d_part5['func_q']['u_R']))
+    elif 'bdm3y3' in dd_name:
+        frho_p1 = f_rho_bd(r, rho_p, n=1)
+        frho_t1 = f_rho_bd(r, rho_t, n=1)
+        frho_p2 = f_rho_bd(r, rho_p, n=2)
+        frho_t2 = f_rho_bd(r, rho_t, n=2)
+        frho_p3 = f_rho_bd(r, rho_p, n=3)
+        frho_t3 = f_rho_bd(r, rho_t, n=3)
+
+        u_d_part2 = 0
+        u_d_part3 = u_bifold_ex_zr(frho_p3, rho_t, vnn, r, q, R, s)
+        u_d_part4 = u_bifold_ex_zr(rho_p, frho_t3, vnn, r, q, R, s)
+        u_d_part5 = u_bifold_ex_zr(frho_p2, frho_t1, vnn, r, q, R, s)
+        u_d_part6 = u_bifold_ex_zr(frho_p1, frho_t2, vnn, r, q, R, s)
+        u_R = c*gE * (u_d_part1['func_r']['u_R'] - g * (u_d_part3['func_r']['u_R'] + u_d_part4['func_r']['u_R'] + 3*u_d_part5['func_r']['u_R'] + 3*u_d_part6['func_r']['u_R']))
+        u_q = c*gE * (u_d_part1['func_q']['u_R'] - g * (u_d_part3['func_q']['u_R'] + u_d_part4['func_q']['u_R'] + 3*u_d_part5['func_q']['u_R'] + 3*u_d_part6['func_q']['u_R']))
+
     else:
         print('Something went wrong!')
         quit()
@@ -413,10 +505,18 @@ def u_xdm3yn_ex_zr(e_lab, a_proj, rho_p, rho_t, r, q, R=None, s=None, dd_name='b
         return {'func_i': {'u_R': [u_R_info], 'part1': u_d_part1['func_i'], 'part2': u_d_part2['func_i'], 'part3': u_d_part3['func_i'], 'part4': u_d_part4['func_i']},
                 'func_r': {'u_R': u_R,        'part1': u_d_part1['func_r'], 'part2': u_d_part2['func_r'], 'part3': u_d_part3['func_r'], 'part4': u_d_part4['func_r']},
                 'func_q': {'u_R': u_q,        'part1': u_d_part1['func_q'], 'part2': u_d_part2['func_q'], 'part3': u_d_part3['func_q'], 'part4': u_d_part4['func_q']}}
-    elif 'bdm3y' in dd_name:
+    elif 'bdm3y1' in dd_name:
         return {'func_i': {'u_R': [u_R_info], 'part1': u_d_part1['func_i'], 'part3': u_d_part3['func_i'], 'part4': u_d_part4['func_i']},
                 'func_r': {'u_R': u_R,        'part1': u_d_part1['func_r'], 'part3': u_d_part3['func_r'], 'part4': u_d_part4['func_r']},
                 'func_q': {'u_R': u_q,        'part1': u_d_part1['func_q'], 'part3': u_d_part3['func_q'], 'part4': u_d_part4['func_q']}}
+    elif 'bdm3y2' in dd_name:
+        return {'func_i': {'u_R': [u_R_info], 'part1': u_d_part1['func_i'], 'part3': u_d_part3['func_i'], 'part4': u_d_part4['func_i'], 'part5': u_d_part5['func_i']},
+                'func_r': {'u_R': u_R,        'part1': u_d_part1['func_r'], 'part3': u_d_part3['func_r'], 'part4': u_d_part4['func_r'], 'part5': u_d_part5['func_r']},
+                'func_q': {'u_R': u_q,        'part1': u_d_part1['func_q'], 'part3': u_d_part3['func_q'], 'part4': u_d_part4['func_q'], 'part5': u_d_part5['func_q']}}
+    elif 'bdm3y3' in dd_name:
+        return {'func_i': {'u_R': [u_R_info], 'part1': u_d_part1['func_i'], 'part3': u_d_part3['func_i'], 'part4': u_d_part4['func_i'], 'part5': u_d_part5['func_i'], 'part6': u_d_part6['func_i']},
+                'func_r': {'u_R': u_R,        'part1': u_d_part1['func_r'], 'part3': u_d_part3['func_r'], 'part4': u_d_part4['func_r'], 'part5': u_d_part5['func_r'], 'part6': u_d_part6['func_r']},
+                'func_q': {'u_R': u_q,        'part1': u_d_part1['func_q'], 'part3': u_d_part3['func_q'], 'part4': u_d_part4['func_q'], 'part5': u_d_part5['func_q'], 'part6': u_d_part6['func_q']}}
 
 
 #### LOCAL FERMI MOMENTUM
