@@ -79,6 +79,7 @@ pplot(R, u_fig1_bdm3y2_t, label='total - bdm3y2',linestyle = 'None', marker='s',
 pplot(R, u_fig1_bdm3y3_t, label='total - bdm3y3',linestyle = 'None', marker='s', markevery=markevery, color='red', alpha=0.5, zorder=999)
     ]
 
+fig1 = fig1_d + fig1_e + fig1_t
 
 suptitle = 'BiFold vs literature for BDM3Yn/Paris'
 title = 'Reference: Fig. 1. @ Phys. Rev. Lett. 74 (1995) 34.'
@@ -93,5 +94,5 @@ plot_potentials([u_bdm3y1, u_bdm3y2, u_bdm3y3], R, part='total', add_plot=fig1_t
                 linestyles=['dashed', 'dotted', 'solid'], xlimit=(0,8))
 
 
-#plot_potentials([u_bdm3y1, u_bdm3y2, u_bdm3y3], R, part='direct', add_plot=fig1, suptitle=suptitle, title=title,
-#                linestyles=['dashed', 'dotted', 'solid'], xlimit=(0,8))
+plot_potentials([u_bdm3y1, u_bdm3y2, u_bdm3y3], R, part='all', add_plot=fig1, suptitle=suptitle, title=title,
+                linestyles=['dashed', 'dotted', 'solid'], xlimit=(0,8))
