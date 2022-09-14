@@ -219,11 +219,9 @@ def mafe(yr, yc):
     Reference:
     https://en.wikipedia.org/wiki/Mean_absolute_percentage_error
     """
-    n = len(yr)
     ferr = abs(1 - yc / yr)
     merr, serr = stdev(ferr)
     return merr, serr, ferr
-
 
 def mape(yr, yc):
     """
@@ -243,3 +241,66 @@ def mape(yr, yc):
     https://en.wikipedia.org/wiki/Mean_absolute_percentage_error
     """
     return tuple([100 * m for m in mafe(yr, yc)])
+    
+def mse(yr, yc):
+    """
+    yr        : reference values (array)
+    yc        : comapred values (array)
+    mse_val   : mean squared error (mse)
+    mse_dev   : standard deviation of mse
+    distance2 : squared difference of yr and yc 
+    
+    returns:
+    mse_val, mse_dev, distance2
+
+    Reference:
+    https://en.wikipedia.org/wiki/Mean_squared_error
+    """
+    distance = yr - yc
+    distance2 = distance * distance
+    mse_val, mse_dev = stdev(distance2)
+    
+    return mse_val, mse_dev, distance2
+
+def rmse(yr, yc):
+    """
+    yr         : reference values (array)
+    yc         : comapred values (array)
+    rmse_val   : root mean squared error (rmse)
+    rmse_dev   : standard deviation of rmse
+    distance2  : squared difference of yr and yc 
+    
+    returns:
+    rmse_val, rmse_dev, distance2
+
+    Reference:
+    https://en.wikipedia.org/wiki/Root-mean-square_deviation
+    """
+    
+    mse_val, mse_dev, distance2 = mse(yr, yc)
+    rmse_val = sqrt(mse_val)
+    rmse_dev = sqrt(mse_dev)
+    return rmse_val, rmse_dev, distance2
+
+def wmse(yr, yc):
+    """
+    yr         : reference values (array)
+    yc         : comapred values (array)
+    wmse_val   : weighted mean squared error (wmse)
+    wmse_dev   : standard deviation of wmse
+    wdistance2 : weighted and squared difference of yr and yc 
+    
+    returns:
+    wmse_val, wmse_dev, wdistance2
+
+    Reference:
+    Equation 38 in CPC 181 (1) (2010) 168–182.
+    https://doi.org/10.1016/j.cpc.2009.09.007  
+    """
+    distance = yr - yc
+    weight = yr + yc
+    wdistance = distance/weight
+    wdistance2 = wdistance * wdistance
+    wmse_val, wmse_dev = stdev(wdistance2)
+    
+    return wmse_val, wmse_dev, wdistance2    
