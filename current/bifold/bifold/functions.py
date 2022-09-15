@@ -214,8 +214,13 @@ class keep_info:
 
     def copy(self):
         return keep_info((self.value, [*self.info]))
-
-
+        
+    def pinfo(self):
+        """prints info"""
+        for key, val in self.info[0].items():
+            print(f'{key:6s} = {val}')
+    
+    
 #------------------------------------------------------------
 @volumes
 def f_exp_decay(r, V0, a, **kwargs):
