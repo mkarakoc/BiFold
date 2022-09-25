@@ -108,7 +108,9 @@ def volumes(func):
         if func_name!= 'f_dirac_delta':
             fr = append(f_0(r, fr), fr[1:])
 
-        norm = None if not 'norm' in (kkeys:=kwargs.keys()) else kwargs['norm']
+        kkeys = kwargs.keys()
+        #norm = None if not 'norm' in (kkeys:=kwargs.keys()) else kwargs['norm']
+        norm = None if not 'norm' in kkeys else kwargs['norm']
         L = 0 if not 'L' in kkeys else kwargs['L']
 
         if func_name == 'f_rho_dd' or func_name == 'f_rho_bd':

@@ -7,17 +7,17 @@ name = "bifold"
 
 # the first released version
 # 1/(1+1/e) = 0.73105
-version = "0.731.0"
+version = "0.731.32"
 
 authors = [
   { name="Mesut Karakoç", email="mesutkarakoc@gmail.com" },
 ]
 
-description = "BiFolD calculates a nuclear potential using the double folding model"
+description = "BiFold calculates a nuclear potential using the double folding model"
 readme = "README.md"
 #license = { file="LICENSE" }
 
-requires-python = ">=3.8"
+requires-python = ">=3.0"
 
 classifiers = [
     "Programming Language :: Python :: 3",

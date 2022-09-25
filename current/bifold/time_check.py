@@ -36,7 +36,7 @@ def time_it(run_num = 10, loop_num = 1000):
             std_dev = sum([(t-avg_time)**2 for t in avg_times])/(run_num-1)
             cavg_time = convert_time(avg_time)
             cstd_dev = convert_time(std_dev)
-            print(f'{func.__name__}: {run_num = }, {loop_num = }, avg time = {cavg_time} ± {cstd_dev}')
+            print(f'{func.__name__}: run_num = {run_num}, loop_num = {loop_num}, avg time = {cavg_time} ± {cstd_dev}')
             return func_result
         return wrapper
     return inner
