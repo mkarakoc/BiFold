@@ -6,6 +6,7 @@ BiFold calculates the density-dependent (DDM3Yn, BDM3Yn, CDM3Yn) or independent 
 ```
 pip install bifold
 ```
+PyPI link: https://pypi.org/project/bifold/
 
 ### Local install
 First download the *'current'* folder or clone the BiFold repository. And, open a terminal in *'current'* folder.
