@@ -17,6 +17,7 @@ venv
 # python build directorys
 **/build
 **/**.egg-info
+**/dist
 
 ## bat windows files
 *.bat
