@@ -7,8 +7,8 @@ MAINTAINER Mesut Karakoç <mesudkarakoc@gmail.com>
 USER root
 
 # add jupyter notebooks
-#ADD examples    /home/main/examples
-#RUN chown -R main:main /home/main/examples
+ADD examples    /home/main/current
+RUN chown -R main:main /home/main/current
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -17,13 +17,13 @@ RUN apt-get update \
 
 RUN pip3 install --upgrade pip
 
+# main user
+USER main
+
 RUN pip3 install -U --no-cache-dir \
     bifold \
     numba \
     scipy
-
-# main user
-USER main
 
 # working directory
 WORKDIR /home/main
