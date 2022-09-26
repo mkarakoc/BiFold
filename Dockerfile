@@ -12,7 +12,7 @@ USER root
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        python3-urllib3=1.25.8-2ubuntu0.1 \
+        python3-urllib3 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade pip
