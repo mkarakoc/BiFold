@@ -2,6 +2,9 @@
 
 BiFold calculates the density-dependent (DDM3Yn, BDM3Yn, CDM3Yn) or independent double folded potentials between two colliding spherical nuclei. It is written in a Python package form to give the ability to use the potentials directly in a nuclear reaction/structure code. In addition to using Woods-Saxon/Fermi or Gaussian functions, the code also allows for the definition of nuclear matter densities using pre-calculated densities in a data file. 
 
+### Try without installation
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mkarakoc/BiFold/HEAD)
+
 ### Install using pip from pypi.org
 ```
 pip install bifold
