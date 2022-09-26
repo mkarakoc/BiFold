@@ -7,13 +7,15 @@ MAINTAINER Mesut Karakoç <mesudkarakoc@gmail.com>
 USER root
 
 # add jupyter notebooks
-ADD examples    /home/main/examples
-RUN chown -R main:main /home/main/examples
+#ADD examples    /home/main/examples
+#RUN chown -R main:main /home/main/examples
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         python3-urllib3=1.25.8-2ubuntu0.1 \
     && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --upgrade pip
 
 RUN pip3 install -U --no-cache-dir \
     bifold==0.731.32 \
