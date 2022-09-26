@@ -18,10 +18,9 @@ RUN apt-get update \
 RUN pip3 install --upgrade pip
 
 RUN pip3 install -U --no-cache-dir \
-    bifold==0.731.32 \
-    matplotlib==3.6.0 \
-    numba==0.56.2 \
-    scipy==1.9.1
+    bifold \
+    numba \
+    scipy
 
 # main user
 USER main
