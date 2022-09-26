@@ -7,7 +7,7 @@ MAINTAINER Mesut Karakoç <mesudkarakoc@gmail.com>
 USER root
 
 # add jupyter notebooks
-ADD examples    /home/main/current
+ADD current  /home/main/current
 RUN chown -R main:main /home/main/current
 
 RUN apt-get update \
