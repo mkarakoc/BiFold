@@ -1,7 +1,12 @@
-# hash:sha256:29ad7a02ec02f0b20ad111e2c7a43b2ed8924979053cd14b7716ebcc43385e11
-FROM registry.codeocean.com/codeocean/miniconda3:4.9.2-cuda11.7.0-cudnn8-ubuntu20.04
+## hash:sha256:29ad7a02ec02f0b20ad111e2c7a43b2ed8924979053cd14b7716ebcc43385e11
+#FROM registry.codeocean.com/codeocean/miniconda3:4.9.2-cuda11.7.0-cudnn8-ubuntu20.04
+#
+#ARG DEBIAN_FRONTEND=noninteractive
 
-ARG DEBIAN_FRONTEND=noninteractive
+# https://hub.docker.com/r/hesap/
+FROM hesap/aimpy:main202002270048
+
+MAINTAINER Mesut Karakoç <mesudkarakoc@gmail.com>
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
