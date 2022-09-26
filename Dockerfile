@@ -8,10 +8,6 @@ RUN apt-get update \
         python3-urllib3=1.25.8-2ubuntu0.1 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN conda install -y \
-        jupyter==1.0.0 \
-    && conda clean -ya
-
 RUN pip3 install -U --no-cache-dir \
     bifold==0.731.32 \
     html-parser==0.2 \
