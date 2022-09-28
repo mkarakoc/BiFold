@@ -12,7 +12,7 @@ https://doi.org/10.48550/arXiv.2209.13344
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mkarakoc/BiFold/HEAD)
 
 #### Colab
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mkarakoc/BilgisayarProgramlama)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mkarakoc/BiFold)
 
 ### Install using pip from pypi.org
 ```
