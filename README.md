@@ -8,11 +8,10 @@ https://doi.org/10.48550/arXiv.2209.13344
 
 ### Try without installation
 
-#### Binder
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mkarakoc/BiFold/HEAD)
+| [mybinder](https://mybinder.org/) | [colab.research](https://colab.research.google.com/) |
+|---|---|
+| [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mkarakoc/BiFold/HEAD) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mkarakoc/BiFold) |
 
-#### Colab
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mkarakoc/BiFold)
 
 ### Install using pip from pypi.org
 ```
