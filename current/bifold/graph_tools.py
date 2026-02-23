@@ -21,6 +21,7 @@ This module contains the plot tools for BiFold.
 
 from matplotlib import pyplot as plt
 from random import randint
+from .print_tools import print_title
 
 LINE_STYLES = ['solid', 'dashed', 'dashdot', 'dotted']
 COLORS = 'krbgcmy'
@@ -483,7 +484,7 @@ def plot_all(u, r, q, R=None, s=None, title=''):
     '''
 
     if title!='':
-        print_title(title=title, omit=omit)
+        print_title(title=title)
 
     QUIT = False
     try:
